@@ -36,7 +36,7 @@
         </div>
 
 
-        <div class="container">
+        <div class="container" id="loginPanel">
             <div class="row col-9 my-5">
                 <div class="col-2">
                     <label for="username"><b>Username:</b></label>
@@ -60,10 +60,50 @@
 
             <div class="row my-2">
                 <button id="loginButton" class="col-2 mx-1">Login</button>
-                <button id="exitButton" class="col-2">Exit</button>
+                <!-- <button id="exitButton" class="col-2">Exit</button> -->
                 <span class="col-2 ms-auto"><a id="forgotPass">Forgot password?</a></span>
             </div>
         </div>
+
+        <div class="container hidden" id="resetPassPanel">
+            <div class="row col-9 my-5">
+                <div class="col-2">
+                    <label for="username"><b>Username:</b></label>
+                </div>
+
+                <div class="col-6">
+                    <div id="grabbedname"></div>
+                </div>
+
+            </div>
+            <div class="row col-9 my-5">
+                <div class="col-2">
+                    <label for="newpass"><b>New Password:</b></label>
+                </div>
+
+                <div class="col-6">
+                    <input type="password" id="newpass" placeholder="New Password" required>
+                    <span class="eye" id="revealIcon">&#x1F441;</span>
+                </div>
+            </div>
+            <div class="row col-9 my-5">
+                <div class="col-2">
+                    <label for="confirm"><b>Confirm:</b></label>
+                </div>
+
+                <div class="col-6">
+                    <input type="password" id="confirm" placeholder="Confirm Password" required>
+                    <span class="eye" id="revealIcon">&#x1F441;</span>
+                </div>
+            </div>
+
+            <div class="row my-2">
+                <button id="resetButton" class="col-2 mx-1">Reset</button>
+                <button id="exitButton" class="col-2">Exit</button>
+                <!-- <span class="col-2 ms-auto"><a id="forgotPass">Forgot password?</a></span> -->
+            </div>
+        </div>
+
     </div>
     
 </body>

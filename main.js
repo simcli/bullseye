@@ -13,6 +13,8 @@ window.onload = function () {
   //BUTTON HANDLERS
   document.querySelector("#loginButton").addEventListener("click", handleLogin);
   document.querySelector("#revealIcon").addEventListener("click", togglePasswordVisibility);
+  document.querySelector("#forgotPass").addEventListener("click", );
+  
 };
 
 
