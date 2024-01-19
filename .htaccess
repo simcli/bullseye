@@ -1,0 +1,6 @@
+#URL mapping for REST API bullseye
+#Note: "NC" means case insensitive
+RewriteEngine on
+
+RewriteRule ^bullseye/login$ api/login.php [NC]
+RewriteRule ^bullseye/lockaccount$ api/lockAccount.php [NC]
