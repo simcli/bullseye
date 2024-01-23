@@ -11,6 +11,13 @@ function togglePasswordVisibility() {
   }
 }
 
+function showResetPasswordForm(username) {
+  // Hide loginPanel, show resetPassPanel
+  document.querySelector("#loginPanel").classList
+  document.getElementById("resetPassPanel").style.display = "block";
 
+  // Set the username in the reset form
+  document.getElementById("resetUsername").value = username;
+}
 
 export { togglePasswordVisibility };
