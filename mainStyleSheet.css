@@ -196,3 +196,9 @@ input:read-only:focus {
 #revealIcon {
   cursor: pointer;
 }
+
+#forgotPass {
+  cursor: pointer;
+  color: lightskyblue;
+  text-decoration: underline;
+}

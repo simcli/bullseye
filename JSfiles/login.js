@@ -65,7 +65,7 @@ function lockAccount(username) {
       } else {
         // Locking account failed
         let errorResponse = JSON.parse(xhr.responseText);
-        //alert("Locking account failed. " + errorResponse.error);
+        alert("Locking account failed. " + errorResponse.error);
       }
     }
   };

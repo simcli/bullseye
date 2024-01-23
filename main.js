@@ -13,11 +13,27 @@ window.onload = function () {
   //BUTTON HANDLERS
   document.querySelector("#loginButton").addEventListener("click", handleLogin);
   document.querySelector("#revealIcon").addEventListener("click", togglePasswordVisibility);
-  //document.querySelector("#forgotPass").addEventListener("click", );
+  document.querySelector("#forgotPass").addEventListener("click", showResetPasswordForm);
   
 };
 
+function showResetPasswordForm() {
+  
+  let username = document.querySelector("#username").value;
+  
+  if(username.length === 0){
+    alert("Username field must be filled in");
+    return;
+  }
+  console.log(username);
+  // Hide loginPanel, show resetPassPanel
+  document.querySelector("#loginPanel").classList.add("hidden");
+  document.querySelector("#resetPassPanel").classList.remove("hidden");
 
+  
+  // Set the username in the reset form
+  document.querySelector("#grabbedname").innerHTML = username;
+}
 
 function handleLogin() {
   console.log(loginAttempts)

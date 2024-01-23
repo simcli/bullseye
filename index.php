@@ -61,7 +61,7 @@
             <div class="row my-2">
                 <button id="loginButton" class="col-2 mx-1">Login</button>
                 <!-- <button id="exitButton" class="col-2">Exit</button> -->
-                <span class="col-2 ms-auto"><a id="forgotPass">Forgot password?</a></span>
+                <div class="col-2 ms-auto" id="forgotPass">Forgot password?</div>
             </div>
         </div>
 
