@@ -55,6 +55,7 @@
                 <div class="col-6">
                     <input type="password" id="password" placeholder="Enter Password" required>
                     <span class="eye" id="revealIcon">&#x1F441;</span>
+
                 </div>
             </div>
 
@@ -84,6 +85,7 @@
                 <div class="col-6">
                     <input type="password" id="newpass" placeholder="New Password" required>
                     <span class="eye" id="revealIcon">&#x1F441;</span>
+
                 </div>
             </div>
             <div class="row col-9 my-5">
@@ -94,6 +96,7 @@
                 <div class="col-6">
                     <input type="password" id="confirm" placeholder="Confirm Password" required>
                     <span class="eye" id="revealIcon">&#x1F441;</span>
+
                 </div>
             </div>
 
@@ -105,7 +108,7 @@
         </div>
 
     </div>
-    
+
 </body>
 
 </html>

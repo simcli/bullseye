@@ -1,6 +1,6 @@
 //import user
 import { validateLogin, lockAccount } from "./JSfiles/login.js";
-import { togglePasswordVisibility } from "./JSfiles/password.js";
+import { togglePasswordVisibility, resetPassword } from "./JSfiles/password.js";
 
 let addOrUpdate; // to track whether we're doing an add or an update
 let loginAttempts = 0;
@@ -12,31 +12,44 @@ window.onload = function () {
 
   //BUTTON HANDLERS
   document.querySelector("#loginButton").addEventListener("click", handleLogin);
-  document.querySelector("#revealIcon").addEventListener("click", togglePasswordVisibility);
-  document.querySelector("#forgotPass").addEventListener("click", showResetPasswordForm);
-  
+  document.addEventListener("click", function (event) {
+    if (event.target.classList.contains("eye")) {
+      togglePasswordVisibility(event);
+    }
+  });
+
+  document
+    .querySelector("#forgotPass")
+    .addEventListener("click", showResetPasswordForm);
+
+  document.querySelector("#exitButton").addEventListener("click", hideResetPassForm);
+  document.querySelector("#resetButton").addEventListener("click", handleResetPass);
 };
 
+function hideResetPassForm() {
+  document.querySelector("#")
+  document.querySelector("#loginPanel").classList.remove("hidden");
+  document.querySelector("#resetPassPanel").classList.add("hidden");
+}
+
 function showResetPasswordForm() {
-  
   let username = document.querySelector("#username").value;
-  
-  if(username.length === 0){
+
+  if (username.length === 0) {
     alert("Username field must be filled in");
     return;
   }
-  console.log(username);
+  
   // Hide loginPanel, show resetPassPanel
   document.querySelector("#loginPanel").classList.add("hidden");
   document.querySelector("#resetPassPanel").classList.remove("hidden");
 
-  
   // Set the username in the reset form
   document.querySelector("#grabbedname").innerHTML = username;
 }
 
 function handleLogin() {
-  console.log(loginAttempts)
+  
   let username = document.querySelector("#username").value;
   let password = document.querySelector("#password").value;
 
@@ -68,3 +81,23 @@ function handleLogin() {
 }
 
 
+function handleResetPass() {
+  let username = document.querySelector("#grabbedname").innerHTML;
+  let newPassword = document.querySelector("#newpass").value;
+  let confirmPassword = document.querySelector("#confirm").value;
+  
+  // Check if newPass or confirmPass is empty
+  if (newPassword === "" || confirmPassword === "") {
+    alert("Both new password and confirm password must be filled out");
+    return;
+  }
+
+  // Check if newPass and confirmPass match
+  if (newPassword !== confirmPassword) {
+    alert("New password and confirm password do not match");
+    return;
+  }
+
+  // Continue with the password reset process
+  resetPassword(username, newPassword, confirmPassword);
+}

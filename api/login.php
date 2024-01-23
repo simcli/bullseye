@@ -18,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Fetch employee details with permission level
         $query = "
         SELECT
+            e.Password,
             e.FirstName,
             e.LastName,
             p.permissionLevel
@@ -31,27 +32,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             AND e.active = 1
             AND e.locked = 0;
     ";
-        
+
         $stmt = $connectionManager->getConnection()->prepare($query);
         $stmt->bindParam(':username', $requestData->username);
-        $stmt->bindParam(':password', $requestData->password);
         $stmt->execute();
 
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($result) {
-            // Employee found, respond with success and employee details
-            sendResponse(200, $result, null);
-            exit();
+            //Compare sent password to hashed password
+            if (password_verify($requestData->password, $result['password'])) {
+                // Employee found, respond with success and employee details
+                sendResponse(200, $result, null);
+                exit();
+            } else {
+                // Invalid credentials or employee not active/locked
+                sendResponse(401, null, "Invalid username and/or password. Please contact your Administrator admin@bullseye.ca for assistance");
+                exit();
+            }
         } else {
-            // Invalid credentials or employee not active/locked
-            sendResponse(401, null, "Invalid username and/or password. Please contact your Administrator admin@bullseye.ca for assistance");
+            // Invalid request, missing username or password
+            sendResponse(400, null, "Invalid request. Missing username or password");
             exit();
         }
-    } else {
-        // Invalid request, missing username or password
-        sendResponse(400, null, "Invalid request. Missing username or password");
-        exit();
     }
 }
 

@@ -3,7 +3,6 @@
 
 function validateLogin(username, password) {
 
-
   // Convert data to JSON format
   let obj = {
     username: username,
@@ -19,8 +18,8 @@ function validateLogin(username, password) {
   xhr.onreadystatechange = function () {
     if (xhr.readyState === XMLHttpRequest.DONE) {
       let response = JSON.parse(xhr.responseText);
-      console.log(response);
-      if (xhr.status === 200) {
+      
+      if (xhr.status === 200) {    
         // Successful login
         alert(
           "Login successful! Welcome, " +
@@ -58,7 +57,7 @@ function lockAccount(username) {
   xhr.onreadystatechange = function () {
     if (xhr.readyState === XMLHttpRequest.DONE) {
       let response = JSON.parse(xhr.responseText);
-      console.log(response);
+      
       if (xhr.status === 200) {
         // Account locked successfully
         alert("Account locked successfully.");
