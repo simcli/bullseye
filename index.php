@@ -107,6 +107,52 @@
             </div>
         </div>
 
+        <div id="mainPagePanel" class=" container">
+
+            <div class="row my-2">
+
+                <div class="col-3">
+                    User: <span id="username"></span>
+                </div>
+                <div class="col-3 ms-auto">
+                    Location: <span id="location"></span>
+                </div>
+            </div>
+
+            <div class="menu row">
+                <button class="btn-primary col-2 " id="ordersButton">
+                    Orders
+                </button>
+                <button class="btn-primary col-2 " id="inventoryButton">
+                    Inventory
+                </button>
+                <button class="btn-primary col-2 " id="lossreturnButton">
+                    Loss/Return
+                </button>
+                <button class="btn-primary col-2 " id="reportButton">
+                    Reports
+                </button>
+                <button class="btn-primary col-2 " id="adminButton">
+                    Admin
+                </button>
+
+            </div>
+            <div class="border border-solid row" id="datagrid">
+                <picture>
+                    <img src="images/datagridimage.png" class="img-fluid" style="height: 500px; width: 1000px" alt="" />
+                </picture>
+            </div>
+            <div class="row">
+                <button class="btn-primary col-1 " id="refreshButton">
+                    Refresh
+                </button>
+                <!-- change the exitButton ids -->
+                <button class="btn-primary col-1 ms-auto" id="exitButton">
+                    Exit
+                </button>
+            </div>
+        </div>
+
     </div>
 
 </body>

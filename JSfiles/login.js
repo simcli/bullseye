@@ -2,7 +2,6 @@
 //URL bullseye/login
 
 function validateLogin(username, password) {
-
   // Convert data to JSON format
   let obj = {
     username: username,
@@ -12,14 +11,15 @@ function validateLogin(username, password) {
   // Set method and URL variables
   let method = "POST";
   let url = "bullseye/login";
+  let isSuccess = false;
 
   // Perform AJAX request
   let xhr = new XMLHttpRequest();
   xhr.onreadystatechange = function () {
     if (xhr.readyState === XMLHttpRequest.DONE) {
       let response = JSON.parse(xhr.responseText);
-      
-      if (xhr.status === 200) {    
+
+      if (xhr.status === 200) {
         // Successful login
         alert(
           "Login successful! Welcome, " +
@@ -27,7 +27,7 @@ function validateLogin(username, password) {
             " " +
             response.data.LastName
         );
-        window.location.href = "dashboard.php"; // Redirect to the dashboard page
+        isSuccess = true;
       } else {
         // Login failed
         let errorResponse = JSON.parse(xhr.responseText);
@@ -39,8 +39,9 @@ function validateLogin(username, password) {
   // Send JSON data in the request body
   xhr.open(method, url, true);
   xhr.send(JSON.stringify(obj));
-}
 
+  return isSuccess;
+}
 
 function lockAccount(username) {
   // Convert data to JSON format
@@ -57,7 +58,7 @@ function lockAccount(username) {
   xhr.onreadystatechange = function () {
     if (xhr.readyState === XMLHttpRequest.DONE) {
       let response = JSON.parse(xhr.responseText);
-      
+
       if (xhr.status === 200) {
         // Account locked successfully
         alert("Account locked successfully.");
@@ -74,7 +75,5 @@ function lockAccount(username) {
   xhr.setRequestHeader("Content-type", "application/json");
   xhr.send(JSON.stringify(obj));
 }
-
-
 
 export { validateLogin, lockAccount };

@@ -27,7 +27,7 @@ window.onload = function () {
 };
 
 function hideResetPassForm() {
-  document.querySelector("#")
+  //document.querySelector("#")
   document.querySelector("#loginPanel").classList.remove("hidden");
   document.querySelector("#resetPassPanel").classList.add("hidden");
 }
@@ -77,7 +77,19 @@ function handleLogin() {
   }
 
   // Continue with the login validation
-  validateLogin(username, password);
+  let successfulLogin =  validateLogin(username, password);
+  
+  if (successfulLogin) {
+    //if login is successful reveal mainpage
+    document.querySelector("#mainPagePanel").classList.remove("hidden");
+    document.querySelector("#loginPanel").classList.add("hidden");
+    //then change the username and location to the logged in user
+    
+  }
+  
+  
+  // document.querySelector("#mainPagePanel").classList.remove("hidden");
+  //       document.querySelector("#loginPanel").classList.add("hidden");
 }
 
 
