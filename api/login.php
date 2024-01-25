@@ -21,18 +21,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Fetch employee details with permission level
         $query = "
         SELECT
-            e.Password,
-            e.FirstName,
-            e.LastName,
-            p.permissionLevel
-        FROM
-            employee e
-        JOIN
-            posn p ON e.PositionID = p.PositionID
-        WHERE
-            e.username = :username
-            AND e.active = 1
-            AND e.locked = 0;
+    e.Password,
+    e.FirstName,
+    e.LastName,
+    p.permissionLevel,
+    s.name AS location
+    FROM
+        employee e
+    JOIN
+        posn p ON e.PositionID = p.PositionID
+    JOIN
+        site s ON e.siteID = s.siteID
+    WHERE
+    e.username = :username
+    AND e.active = 1
+    AND e.locked = 0;
     ";
 
         $stmt = $connectionManager->getConnection()->prepare($query);
