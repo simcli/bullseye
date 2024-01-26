@@ -4,3 +4,7 @@ RewriteEngine on
 
 RewriteRule ^bullseye/login$ api/login.php [NC]
 RewriteRule ^bullseye/lockaccount$ api/lockAccount.php [NC]
+RewriteRule ^bullseye/resetpass$ api/resetPassword.php [NC]
+
+RewriteRule ^bullseye/employees$ api/employeeService.php [NC]
+RewriteRule ^bullseye/employees/([0-9]{1,4})$ api/employeeService.php?employeeid=$1 [NC]

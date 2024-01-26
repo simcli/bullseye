@@ -36,7 +36,7 @@
         </div>
 
 
-        <div class="container" id="loginPanel">
+        <div class="container hidden" id="loginPanel">
             <div class="row col-9 my-5">
                 <div class="col-2">
                     <label for="username"><b>Username:</b></label>
@@ -55,13 +55,14 @@
                 <div class="col-6">
                     <input type="password" id="password" placeholder="Enter Password" required>
                     <span class="eye" id="revealIcon">&#x1F441;</span>
+
                 </div>
             </div>
 
             <div class="row my-2">
                 <button id="loginButton" class="col-2 mx-1">Login</button>
                 <!-- <button id="exitButton" class="col-2">Exit</button> -->
-                <span class="col-2 ms-auto"><a id="forgotPass">Forgot password?</a></span>
+                <div class="col-2 ms-auto" id="forgotPass">Forgot password?</div>
             </div>
         </div>
 
@@ -84,6 +85,7 @@
                 <div class="col-6">
                     <input type="password" id="newpass" placeholder="New Password" required>
                     <span class="eye" id="revealIcon">&#x1F441;</span>
+
                 </div>
             </div>
             <div class="row col-9 my-5">
@@ -94,6 +96,7 @@
                 <div class="col-6">
                     <input type="password" id="confirm" placeholder="Confirm Password" required>
                     <span class="eye" id="revealIcon">&#x1F441;</span>
+
                 </div>
             </div>
 
@@ -104,7 +107,59 @@
             </div>
         </div>
 
-    </div>
+
+        <div id="mainPagePanel" class="container">
+
+            <div class="row my-2">
+
+                <div class="col-3">
+                    User: <span id="displayUsername"></span>
+                </div>
+                <div class="col-3 ms-auto">
+                    Location: <span id="displayLocation"></span>
+                </div>
+            </div>
+            <!-- when making changes try to always change this output field-->
+            <!-- if two output fields are needed try doing it with js -->
+            <div id="mainOutput">
+
+                <div class="menu row">
+                    <button class="btn-primary col-2 " id="ordersButton">
+                        Orders
+                    </button>
+                    <button class="btn-primary col-2 " id="inventoryButton">
+                        Inventory
+                    </button>
+                    <button class="btn-primary col-2 " id="lossreturnButton">
+                        Loss/Return
+                    </button>
+                    <button class="btn-primary col-2 " id="reportButton">
+                        Reports
+                    </button>
+                    <button class="btn-primary col-2 " id="adminButton">
+                        Admin
+                    </button>
+
+                </div>
+                <div class="border border-solid row" id="datagrid">
+                    <picture>
+                        <img src="images/datagridimage.png" class="img-fluid" style="height: 500px; width: 1000px"
+                            alt="" />
+                    </picture>
+                </div>
+                <div class="row">
+                    <button class="btn-primary col-1 " id="refreshButton">
+                        Refresh
+                    </button>
+                    <!-- change the exitButton ids -->
+                    <button class="btn-primary col-1 ms-auto" id="exitButton">
+                        Exit
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
     
 </body>
 
