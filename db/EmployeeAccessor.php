@@ -8,9 +8,10 @@ class EmployeeAccessor
     FROM employee e
     JOIN site s ON e.siteID = s.siteID
     JOIN posn p ON e.positionID = p.positionID
+    ORDER BY e.employeeID
     ;";
-    private $getByIDStatementString = "SELECT e.*, s.name AS siteName FROM employee e JOIN site s ON e.siteID = s.siteID WHERE e.employeeID = :employeeID;";
-    private $deleteStatementString = "UPDATE employee SET active = 0 WHERE employeeID = employeeID;";
+    private $getByIDStatementString = "SELECT e.*, s.name AS siteName, p.permissionLevel FROM employee e JOIN site s ON e.siteID = s.siteID JOIN posn p ON p.positionID = e.PositionID WHERE e.employeeID = :employeeID;";
+    private $deleteStatementString = "UPDATE employee SET active = 0 WHERE employeeID = :employeeID;";
     private $insertStatementString = "INSERT INTO employee (`employeeID`, `PositionID`, `username`, `Password`, `FirstName`, `LastName`, `Email`, `active`, `siteID`, `locked`)
     VALUES (
         :employeeID,
@@ -27,7 +28,7 @@ class EmployeeAccessor
     private $updateStatementString = "UPDATE employee
     SET PositionID = (SELECT positionID FROM posn WHERE permissionLevel = :permissionLevel),
         username = :username,
-        password = :password,
+        Password = :password,
         FirstName = :firstName,  
         LastName = :lastName,    
         Email = :email,          
@@ -125,15 +126,17 @@ class EmployeeAccessor
      * @param Interger $id the ID of the employee to retrieve 
      * @return Employee Employee object with the specified ID, or NULL if not found
      */
+
     private function getEmployeeByID($id)
     {
         $result = null;
-
+        
         try {
+            
             $this->getByIDStatement->bindParam(":employeeID", $id);
             $this->getByIDStatement->execute();
             $dbresults = $this->getByIDStatement->fetch(PDO::FETCH_ASSOC); // not fetchAll
-
+            
             if ($dbresults) {
                 $employeeID = $dbresults['employeeID'];
                 $permissionLevel = $dbresults['permissionLevel'];
@@ -156,7 +159,6 @@ class EmployeeAccessor
                 $this->getByIDStatement->closeCursor();
             }
         }
-
         return $result;
     }
 
@@ -182,10 +184,10 @@ class EmployeeAccessor
         if (!$this->employeeExists($employee)) {
             return false;
         }
-
+        
         $success = false;
         $employeeID = $employee->getEmployeeID(); // only the ID is needed
-
+        
         try {
             $this->deleteStatement->bindParam(":employeeID", $employeeID);
             $success = $this->deleteStatement->execute(); // this doesn't mean what you think it means
@@ -259,10 +261,12 @@ class EmployeeAccessor
      */
     public function updateEmployee($employee)
     {
+        //
         if (!$this->employeeExists($employee)) {
+            
             return false;
         }
-
+        
         $success = false;
 
         $employeeID = $employee->getEmployeeID();
@@ -275,24 +279,30 @@ class EmployeeAccessor
         $active = $employee->isActive();
         $siteName = $employee->getSiteName();
         $locked = $employee->isLocked();
-
+        
         try {
-            $this->insertStatement->bindParam(":employeeID", $employeeID);
-            $this->insertStatement->bindParam(":permissionLevel", $permissionLevel);
-            $this->insertStatement->bindParam(":username", $username);
-            $this->insertStatement->bindParam(":password", $password);
-            $this->insertStatement->bindParam(":firstName", $firstName);
-            $this->insertStatement->bindParam(":lastName", $lastName);
-            $this->insertStatement->bindParam(":email", $email);
-            $act = $active == true ? 1 : 0;
-            $this->insertStatement->bindParam(":active", $act);
-            $this->insertStatement->bindParam(":siteName", $siteName);
-            $loc = $locked == true ? 1 : 0;
-            $this->insertStatement->bindParam(":locked", $loc);
 
-            $success = $this->insertStatement->execute(); // this doesn't mean what you think it means
-            $success = $this->insertStatement->rowCount() === 1;
+            
+            $this->updateStatement->bindParam(":permissionLevel", $permissionLevel);
+            $this->updateStatement->bindParam(":username", $username);
+            $this->updateStatement->bindParam(":password", $password);
+            $this->updateStatement->bindParam(":firstName", $firstName);
+            $this->updateStatement->bindParam(":lastName", $lastName);
+            $this->updateStatement->bindParam(":email", $email);
+            $act = $active == true ? 1 : 0;
+            $this->updateStatement->bindParam(":active", $act);
+            $this->updateStatement->bindParam(":siteName", $siteName);
+            $loc = $locked == true ? 1 : 0;
+            $this->updateStatement->bindParam(":locked", $loc);
+            $this->updateStatement->bindParam(":employeeID", $employeeID);
+
+            $success = $this->updateStatement->execute(); // this doesn't mean what you think it means
+            
+            $success = $this->updateStatement->rowCount() === 1; //row count only works if there is a change made
+                                                                 //if there is no change made it counts the rows changed as 0 and returns false
+            
         } catch (PDOException $e) {
+            
             $success = false;
         } finally {
             if (!is_null($this->updateStatement)) {

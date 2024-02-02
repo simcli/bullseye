@@ -76,6 +76,8 @@ function doDelete($ema)
             // Only the ID of the employee matters for a delete,
             // but the accessor expects an object, 
             // so we need a dummy object.
+
+            //being numbers or strings does not matter
             $EmployeeObj = new Employee($employeeID, "dummy", "dummy", "dummy", "dummy", "dummy", "dummy", 0, "dummy", 0);
 
             // delete the object from DB
@@ -114,7 +116,6 @@ function doPost($ema)
                 $contents['locked']
             );
 
-
             // add the object to DB
             $success = $ema->insertEmployee($EmployeeObj);
             if ($success) {
@@ -139,13 +140,15 @@ function doPut($ema)
         $body = file_get_contents('php://input');
         $contents = json_decode($body, true);
 
+        $hashedPassword = password_hash($contents['password'], PASSWORD_BCRYPT);
+
         try {
             // create a Employee object
             $EmployeeObj = new Employee(
                 $contents['employeeID'],
                 $contents['permissionLevel'],
                 $contents['username'],
-                $contents['password'],
+                $hashedPassword,
                 $contents['firstName'],
                 $contents['lastName'],
                 $contents['email'],
@@ -153,8 +156,10 @@ function doPut($ema)
                 $contents['siteName'],
                 $contents['locked']
             );
+            
             // update the object in the  DB
             $success = $ema->updateEmployee($EmployeeObj);
+            
             if ($success) {
                 sendResponse(200, $success, null);
             } else {

@@ -71,4 +71,4 @@ function isValidPassword(password, confirmPassword) {
 
 
 
-export { togglePasswordVisibility, resetPassword };
+export { togglePasswordVisibility, resetPassword, isValidPassword };

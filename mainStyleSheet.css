@@ -4,26 +4,22 @@
 }
 
 #content {
-  font-size: 1.25em;
-  line-height: 1.4;
+  
+  
   color: #333;
 }
 
-.container {
-  width: 80%;
-  margin: auto;
-}
 
 table {
   margin-top: 1rem;
-}
-
+} 
+/* 
 table,
 td,
 th {
   border: solid thin gray;
   border-collapse: collapse;
-}
+} */
 
 td,
 th {
@@ -44,11 +40,11 @@ th:not(:nth-child(3)) {
 tr:not(:first-child):not(.selected):hover {
   background-color: #eee;
 }
-table {
+/* table {
   border-collapse: collapse;
   width: 100%;
   margin-bottom: 20px; /* Adds space between tables */
-}
+*/
 
 th, td {
   border: 1px solid #ccc; /* Changed to a more subtle gray */
@@ -202,3 +198,4 @@ input:read-only:focus {
   color: lightskyblue;
   text-decoration: underline;
 }
+
