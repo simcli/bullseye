@@ -20,8 +20,6 @@ window.onload = function () {
   document
     .querySelector("#passExitButton")
     .addEventListener("click", exitResetPass);
-  //Tab Click handlers
-  //document.querySelector("#playersOutput").addEventListener("click", displayPlayersClick);
 
   //BUTTON HANDLERS
   document.querySelector("#loginButton").addEventListener("click", handleLogin);
@@ -56,7 +54,183 @@ window.onload = function () {
 
   document.querySelector("#saveButton").addEventListener("click", processForm);
   document.querySelector("#addButton").addEventListener("click", addEmployee);
+
+  document
+    .querySelector("#setPermsButton")
+    .addEventListener("click", getPermsTable);
+
+  document
+    .querySelector("#inventoryButton")
+    .addEventListener("click", getAllItems);
 };
+
+
+//Gets all items and sets it to main output
+//called when inventory button is pressed
+function getAllItems() {
+  //let url = "api/getAllItems.php";
+  let url = "bullseye/items";
+  let method = "GET";
+  let xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      let resp = JSON.parse(xhr.responseText);
+      if (resp.data) {
+        buildItemsTable(resp.data);
+      } else {
+        alert(resp.error + "; status code: " + xhr.status);
+      }
+    }
+  };
+  xhr.open(method, url, true);
+  xhr.send();
+}
+
+function buildPermsTable(text) {
+  let arr = JSON.parse(text); // new items array
+
+  let html = "";
+  html +=
+    "<table id='itemTable'><tr><th>itemID</th><th>Name</th><th>Active</th><th>Description</th><th>Notes</th><th>Image</th></tr>";
+  for (let i = 0; i < arr.length; i++) {
+    let row = arr[i];
+    html += "<tr>";
+    html += "<td>" + row.itemID + "</td>";
+    html += "<td>" + row.name + "</td>";
+    html += "<td>" + row.active + "</td>";
+    html += "<td>" + row.description + "</td>";
+    html += "<td>" + row.notes + "</td>";
+    html += "<td>" + row.imagePath + "</td>";
+
+    html += "</tr>";
+  }
+  html += "</table>";
+
+  let theTable = document.querySelector("#mainOutput");
+  theTable.innerHTML = html;
+
+  //add an event listener to the table
+  //theTable.addEventListener("click", handlePermsClick);
+}
+
+
+
+//this function gets the user permissions table
+function getPermsTable() {
+  //let url = "api/getAllItems.php";
+  let url = "bullseye/employees";
+  let method = "GET";
+  let xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      let resp = JSON.parse(xhr.responseText);
+      if (resp.data) {
+        buildPermsTable(resp.data);
+      } else {
+        alert(resp.error + "; status code: " + xhr.status);
+      }
+    }
+  };
+  xhr.open(method, url, true);
+  xhr.send();
+}
+
+function buildPermsTable(text) {
+  arr = JSON.parse(text); // get JS Objects
+
+  let html = "";
+  html +=
+    "<table id='employeeTable'><tr><th>Employee ID</th><th>Name</th><th>Site</th><th>Role Permissions</th></tr>";
+  for (let i = 0; i < arr.length; i++) {
+    let row = arr[i];
+    html += "<tr>";
+    html += "<td>" + row.employeeID + "</td>";
+    html += "<td>" + row.firstName + " " + row.lastName + "</td>";
+    html += "<td>" + row.siteName + "</td>";
+
+    // Add a dropdown for Position with default selected based on permissionLevel
+    html += "<td>";
+    html +=
+      "<select class='positionDropdown' data-employee-id='" +
+      row.employeeID +
+      "'>";
+    const positions = [
+      "Regional Manager",
+      "Financial Manager",
+      "Store Manager",
+      "Warehouse Manager",
+      "Trucking / Delivery",
+      "Warehouse Employee",
+      "Administrator",
+    ];
+    for (let position of positions) {
+      const selected = position === row.permissionLevel ? "selected" : "";
+      html += "<option " + selected + ">" + position + "</option>";
+    }
+    html += "</select>";
+    html += "</td>";
+
+    html += "<td>";
+    html +=
+      "<button class='actionBtn' data-employee-id='" +
+      row.employeeID +
+      "'>Set Permissions</button>";
+    html += "</td>";
+
+    html += "</tr>";
+  }
+  html += "</table>";
+
+  let theTable = document.querySelector("#mainOutput");
+  theTable.innerHTML = html;
+
+  //add an event listener to the table
+  theTable.addEventListener("click", handlePermsClick);
+}
+
+function handlePermsClick(event) {
+  // Check if the clicked element is a button with the class 'actionBtn'
+  if (event.target.classList.contains("actionBtn")) {
+    let employeeId = event.target.dataset.employeeId;
+
+    // Find the closest row to the clicked button
+    let closestRow = event.target.closest("tr");
+
+    // Find the dropdown element within the row
+    let dropdown = closestRow.querySelector(".positionDropdown");
+
+    // Get the selected value of the dropdown
+    let selectedPermission = dropdown.value;
+
+    setUserPermissions(employeeId, selectedPermission);
+  }
+}
+
+function setUserPermissions(id, perm) {
+  //send ajax request to backend
+  //let url = "api/getAllItems.php";
+
+  let obj = {
+    employeeID: id,
+    permissionLevel: perm,
+  };
+
+  let url = "bullseye/permissions/" + id;
+  let method = "PUT";
+  let xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      let resp = JSON.parse(xhr.responseText);
+      if (resp.data) {
+        alert("Successfully changed user" + resp.data + "permissions");
+      } else {
+        alert(resp.error + "; status code: " + xhr.status);
+      }
+    }
+  };
+  xhr.open(method, url, true);
+  xhr.send(JSON.stringify(obj));
+}
 
 //ADD or UPDATE an employee
 //Called when Save is pressed
@@ -100,7 +274,6 @@ function processForm() {
   let username = document.querySelector("#addUsername").value;
   if (username === "") {
     username = findUsername();
-    
   }
 
   if (!isValidPassword(password, confirmPassword)) {
@@ -398,6 +571,7 @@ function exitMain() {
   document.querySelector("#mainPage").classList.remove("hidden");
   document.querySelector("#AddUpdatePanel").classList.add("hidden");
   document.querySelector("#buttonPanel").classList.add("hidden");
+  changeMenuName("Main Page");
 }
 
 function addEmployee() {
@@ -455,6 +629,7 @@ function exitResetPass() {
 
 function hideAddUpdatePanel() {
   showButtonPanel();
+
   document.querySelector("#AddUpdatePanel").classList.add("hidden");
   document.querySelector("#mainOutput").classList.remove("hidden");
 

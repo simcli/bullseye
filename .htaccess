@@ -8,3 +8,8 @@ RewriteRule ^bullseye/resetpass$ api/resetPassword.php [NC]
 
 RewriteRule ^bullseye/employees$ api/employeeService.php [NC]
 RewriteRule ^bullseye/employees/([0-9]{1,4})$ api/employeeService.php?employeeid=$1 [NC]
+
+RewriteRule ^bullseye/permissions/([0-9]{1,4})$ api/setPermissions.php?employeeid=$1 [NC]
+
+RewriteRule ^bullseye/items$ api/itemService.php [NC]
+RewriteRule ^bullseye/items/([0-9]{5})$ api/itemService.php?itemid=$1 [NC]

@@ -121,19 +121,19 @@
 
             <div id="mainPage">
                 <div class="menu row">
-                    <button class="btn-primary mx-3 col-2 " id="ordersButton">
+                    <button class="btn-primary col-2 " id="ordersButton">
                         Orders
                     </button>
-                    <button class="btn-primary mx-3 col-2 " id="inventoryButton">
+                    <button class="btn-primary col-2 " id="inventoryButton">
                         Inventory
                     </button>
-                    <button class="btn-primary mx-3 col-2 " id="lossreturnButton">
+                    <button class="btn-primary col-2 " id="lossreturnButton">
                         Loss/Return
                     </button>
-                    <button class="btn-primary mx-3 col-2 " id="reportButton">
+                    <button class="btn-primary col-2 " id="reportButton">
                         Reports
                     </button>
-                    <button class="btn-primary mx-3 col-2 " id="adminButton">
+                    <button class="btn-primary col-2 " id="adminButton">
                         Admin
                     </button>
 
@@ -156,14 +156,18 @@
             </div>
             <div class="hidden" id="buttonPanel">
                 <button class='btn btn-primary ms-auto' id='addButton'>Add Employee</button>
+                <button class='btn btn-primary ms-auto' id='setPermsButton'>Set Employee Permissions</button>
                 <button class='btn btn-primary ms-auto' id='exitMainButton'>Exit Page</button>
 
             </div>
 
             <!-- when making changes try to always change this output field-->
-            <div id="mainOutput" class="w-auto">
+
+            <div id="mainOutput">
                 <!-- to be filled by JS -->
             </div>
+
+
         </div>
 
 
